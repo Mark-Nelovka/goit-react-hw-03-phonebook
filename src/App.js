@@ -19,6 +19,21 @@ class App extends Component {
     deleteName: "",
   };
 
+  componentDidMount() {
+    const saveContacts = localStorage.getItem("contacts");
+    const parseContacts = JSON.parse(saveContacts);
+    if (parseContacts) {
+      this.setState({ contacts: parseContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const lengthContacts = this.state.contacts;
+    const stringContacts = JSON.stringify(this.state.contacts);
+    if (lengthContacts !== prevState.contacts)
+      localStorage.setItem("contacts", stringContacts);
+  }
+
   dataSubmit = (data) => {
     const searchName = this.state.contacts
       .map((contactName) => contactName.name)
